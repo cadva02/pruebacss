@@ -1,29 +1,29 @@
 /* SonarQube Bug: Color hexadecimal inválido (tiene letras fuera de A-F y longitud incorrecta) */
 .header {
-    background-color: #ff00gg; 
-    padding: 20px;
-    /* SonarQube Smell: Propiedad duplicada (se sobrescribe a sí misma) */
-    padding: 15px; 
+  background-color: #ff00ff;
+  padding: 15px;
 }
 
 /* SonarQube Smell: Regla CSS completamente vacía (Empty block) */
 .hidden-element {
+  display: none;
 }
 
 /* SonarQube Bug: Pseudo-clase desconocida/inexistente (:hovering no existe, es :hover) */
-a:hovering {
-    text-decoration: underline;
-    color: blue;
+a:hover {
+  text-decoration: underline;
+  color: blue;
 }
 
 /* SonarQube Bug: Falta la unidad de medida (px, em, %, etc.) en un valor distinto de cero */
 .container {
-    width: 100;
-    margin: 0 auto;
+  width: 100px;
+  margin: 0 auto;
 }
 
 /* SonarQube Smell: Declaración @font-face incompleta (falta la propiedad 'src') */
 @font-face {
-    font-family: 'OpenSans';
-    font-weight: normal;
+  font-family: 'OpenSans';
+  font-weight: normal;
+  src: url('OpenSans.woff2') format('woff2');
 }
