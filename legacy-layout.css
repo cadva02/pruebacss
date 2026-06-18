@@ -1,0 +1,32 @@
+/* SonarQube Smell: Uso abusivo de !important. Hace que el código sea muy difícil de mantener y sobrescribir. */
+body {
+    font-family: Arial, sans-serif !important;
+    background-color: #f4f4f4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* SonarQube Smell: Selector con una especificidad excesivamente alta y demasiada profundidad */
+div#main-wrapper div.content ul.nav-list li.nav-item a span.icon.active {
+    display: inline-block;
+    color: red;
+}
+
+.footer {
+    /* SonarQube Bug/Smell: Propiedad CSS desconocida (Typo en 'background-color') */
+    bakground-color: #333333;
+    color: white;
+    text-align: center;
+}
+
+/* SonarQube Smell: Redundancia. El selector universal '*' es innecesario cuando está acoplado a un ID o clase */
+*.button-primary {
+    border-radius: 5px;
+    border: none;
+}
+
+/* SonarQube Smell: Valores iniciales redundantes (los ceros a la izquierda en decimales no son necesarios) */
+.overlay {
+    opacity: 0.5; /* Se prefiere .5 */
+    z-index: 099; /* El 0 a la izquierda en enteros no tiene sentido */
+}
