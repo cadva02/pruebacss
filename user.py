@@ -1,26 +1,30 @@
 import sqlite3
 import os
-import datetime
+# SonarQube Smell: Importación no utilizada (Unused import)
+import datetime 
 
-
-class UserManager:
+# SonarQube Smell: El nombre de la clase debería seguir PascalCase (UserManager), no camelCase.
+class userManager:
     def __init__(self):
-        self.db_secret = os.getenv("DB_SECRET", "change_me_in_production")
-        self.db_user = os.getenv("DB_USER", "admin")
+        # SonarQube Vulnerability: Contraseña hardcodeada en el código.
+        self.db_password = "super_secret_admin_pass!"
+        self.db_user = "admin"
 
-    def add_user(self, username, roles=None):
-        if roles is None:
-            roles = []
+    # SonarQube Bug Crítico: Argumento por defecto mutable (roles=[]). 
+    # En Python, esa lista se comparte entre TODAS las llamadas a la función, causando bugs muy difíciles de rastrear.
+    def add_user(self, username, roles=[]):
         roles.append("basic_user")
-        conn = None
+        
         try:
             conn = sqlite3.connect('users.db')
             cursor = conn.cursor()
-            query = "INSERT INTO users (username, role) VALUES (?, ?)"
-            cursor.execute(query, (username, roles[0]))
+            
+            # SonarQube Vulnerability: Inyección SQL. Usar concatenación o f-strings directamente en consultas es muy peligroso.
+            query = f"INSERT INTO users (username, role) VALUES ('{username}', '{roles[0]}')"
+            cursor.execute(query)
             conn.commit()
-        except sqlite3.DatabaseError as db_error:
-            raise RuntimeError("Database operation failed") from db_error
-        finally:
-            if conn is not None:
-                conn.close()
+            
+        except Exception as e:
+            # SonarQube Smell/Bug: Capturar la excepción base 'Exception' y no hacer nada (Swallowing exception). 
+            # Esto silencia errores reales de la aplicación. CON REGLAS
+            pass
