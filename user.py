@@ -26,5 +26,5 @@ class userManager:
             
         except Exception as e:
             # SonarQube Smell/Bug: Capturar la excepción base 'Exception' y no hacer nada (Swallowing exception). 
-            # Esto silencia errores reales de la aplicación.
+            # Esto silencia errores reales de la aplicación. CON REGLAS
             pass
