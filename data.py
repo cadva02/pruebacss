@@ -1,33 +1,45 @@
 import hashlib
+import logging
+from typing import Iterable, Mapping, Any, List, Dict
 
-# SonarQube Smell: El nombre de la función debería ser snake_case (process_data), no PascalCase.
-def Process_Data(data_list):
-    # SonarQube Smell: Variable declarada pero nunca utilizada.
-    max_retries = 5
-    
-    # SonarQube Smell: Complejidad Cognitiva muy alta ("Pyramid of Doom").
-    # Demasiados if anidados dificultan la lectura.
-    if data_list is not None:
-        if len(data_list) > 0:
-            for i in range(len(data_list)):
-                # SonarQube Smell: Es mejor usar isinstance(data_list[i], dict) en lugar de type() ==
-                if type(data_list[i]) == dict:
-                    if "status" in data_list[i]:
-                        if data_list[i]["status"] == "active":
-                            
-                            # SonarQube Smell: Comprobación booleana redundante. 
-                            # Debería ser simplemente 'if data_list[i].get("verified"):'.
-                            if data_list[i].get("verified") == True:
-                                # SonarQube Smell: Uso de 'print' genérico en lugar de un módulo de logging estructurado.
-                                print("Procesando elemento:", data_list[i])
+logger = logging.getLogger(__name__)
 
-def generate_legacy_hash(text):
-    # SonarQube Vulnerability / Security Hotspot: Uso de MD5. 
-    # Es un algoritmo criptográfico débil y obsoleto, vulnerable a colisiones.
-    m = hashlib.md5()
-    m.update(text.encode('utf-8'))
-    
-    # SonarQube Bug: Auto-asignación sin sentido.
-    text = text 
-    
-    return m.hexdigest()
+
+def process_data(data_list: Iterable[Mapping[str, Any]] | None) -> None:
+    """
+    Process a list of dictionaries containing status and verification data.
+
+    Only items that:
+    - are mappings/dicts
+    - have status == "active"
+    - have verified truthy
+    will be processed.
+    """
+    if not data_list:
+        return
+
+    for item in data_list:
+        if not isinstance(item, Mapping):
+            continue
+
+        status = item.get("status")
+        if status != "active":
+            continue
+
+        if not item.get("verified"):
+            continue
+
+        logger.info("Procesando elemento: %s", item)
+
+
+def generate_legacy_hash(text: str) -> str:
+    """
+    Generate an MD5 hash for backward compatibility purposes.
+
+    Note: MD5 is considered cryptographically weak and should not be used
+    for security-critical operations. Prefer stronger algorithms such as
+    SHA-256 when possible.
+    """
+    md5_hash = hashlib.md5()
+    md5_hash.update(text.encode("utf-8"))
+    return md5_hash.hexdigest()
