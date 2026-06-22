@@ -24,7 +24,7 @@ export class AuthService {
             return false;
         }
 
-        // SonarQube Bug: Código inalcanzable (Unreachable code). El 'return' detiene la ejecución antes.
+        // SonarQube Bug: Código inalcanzable (Unreachable code). El 'return' detiene la ejecución antes. pruebaaa
         console.log("Autenticación finalizada");
     }
 }
