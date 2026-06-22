@@ -1,6 +1,6 @@
 import sqlite3
 import os
-# SonarQube Smell: Importación no utilizada (Unused import)
+# SonarQube Smell: Importación no utilizada (Unused import)....
 import datetime 
 
 # SonarQube Smell: El nombre de la clase debería seguir PascalCase (UserManager), no camelCase.
