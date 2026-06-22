@@ -1,30 +1,22 @@
-// SonarQube Smell: Interfaz vacía (Empty interface). No aporta ningún valor.
-interface UserCredentials {}
+interface UserCredentials {
+  username: string;
+  password: string;
+}
 
 export class AuthService {
-    // SonarQube Vulnerability/Security Hotspot: Credenciales o secretos hardcodeados en el código.
-    private readonly jwtSecret = "super-secret-token-123456789";
-    private readonly dbPassword = "root_password!";
+  // Secret values should be provided via configuration, not hard-coded.
+  private readonly jwtSecret: string;
+  private readonly dbPassword: string;
 
-    // SonarQube Smell: Uso de 'any'. Derrota el propósito de TypeScript (Type safety).
-    public authenticateUser(username: any, password: any): boolean {
-        // SonarQube Smell: Variable declarada pero nunca utilizada (Unused local variable).
-        const maxRetries = 3;
+  constructor(jwtSecret: string, dbPassword: string) {
+    this.jwtSecret = jwtSecret;
+    this.dbPassword = dbPassword;
+  }
 
-        // SonarQube Smell: Asignación inútil. El valor se sobrescribe antes de usarse.
-        let isAuthenticated = false;
-        
-        // SonarQube Bug: Uso de '==' en lugar de '===' (Equality operators should not be used).
-        // En JS/TS, '==' puede causar coerción de tipos inesperada.
-        if (username == "admin" && password == "admin123") {
-            isAuthenticated = true;
-            return true;
-        } else {
-            isAuthenticated = false;
-            return false;
-        }
-
-        // SonarQube Bug: Código inalcanzable (Unreachable code). El 'return' detiene la ejecución antes.
-        console.log("Autenticación finalizada");
+  public authenticateUser(username: string, password: string): boolean {
+    if (username === "admin" && password === "admin123") {
+      return true;
     }
+    return false;
+  }
 }
